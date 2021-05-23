@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(0, 0, 6),
+    padding: theme.spacing(0, 8, 6),
   },
   heroButtons: {
     marginTop: theme.spacing(4),
@@ -157,10 +157,12 @@ function ListPage(props) {
       <main>
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <ToDoForm onSubmit={handleToDoSubmit} />
+            <div spacing={2} className={classes.heroContent}>
+              <ToDoForm onSubmit={handleToDoSubmit} />
 
-            <h3>To do list</h3>
-            <ToDoList todoList={renderTodoList} onTodoClick={handleTodoClick} />
+              <ToDoList todoList={renderTodoList} onTodoClick={handleTodoClick} />
+            </div>
+
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
