@@ -89,14 +89,6 @@ function AlbumFeature(props) {
     <div>
       {/* <AlbumList albumList={albumList} /> */}
       <React.Fragment>
-        <CssBaseline />
-        <AppBar position="relative">
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              Album layout
-            </Typography>
-          </Toolbar>
-        </AppBar>
         <main>
           {/* Hero unit */}
           <div className={classes.heroContent}>
@@ -155,17 +147,6 @@ function AlbumFeature(props) {
             </Grid>
           </Container>
         </main>
-        {/* Footer */}
-        <footer className={classes.footer}>
-          <Typography variant="h6" align="center" gutterBottom>
-            Footer
-          </Typography>
-          <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-            Something here to give the footer a purpose!
-          </Typography>
-          <Copyright />
-        </footer>
-        {/* End footer */}
       </React.Fragment>
     </div>
   );
