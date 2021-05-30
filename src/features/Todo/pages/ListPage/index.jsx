@@ -46,6 +46,15 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
   },
+  custom_button: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+  },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
@@ -156,7 +165,7 @@ function ListPage(props) {
     <div>
       <main>
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container maxWidth="true">
             <div spacing={2} className={classes.heroContent}>
               <ToDoForm onSubmit={handleToDoSubmit} />
 
@@ -176,7 +185,7 @@ function ListPage(props) {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" onClick={handleShowNewClick}>
+                  <Button className={classes.custom_button} onClick={handleShowNewClick}>
                     Show new
                   </Button>
                 </Grid>

@@ -61,7 +61,7 @@ function TodoFeature(props) {
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container maxWidth="lg">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               To do list
             </Typography>
@@ -87,6 +87,7 @@ function TodoFeature(props) {
         </div>
       </main>
       <Switch>
+        <Route path={`${match.url}/todo-list`} component={TodoFeature} exact />
         <Route path={match.path} component={ListPage} exact />
         <Route path={`${match.path}/:todoId`} component={DetailPage} />
         <Route component={NotFoundFeature} />

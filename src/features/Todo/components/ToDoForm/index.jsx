@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import InputField from 'features/form-controls/InputField';
+import InputField from 'components/form-controls/InputField';
 
 ToDoForm.propTypes = {
   onSubmit: PropTypes.func,
