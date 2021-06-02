@@ -74,6 +74,11 @@ function Header(props) {
               Album
             </Link>
           </Button>
+          <Button color="inherit">
+            <Link className={classes.tabLink} to="/blog">
+              Blog
+            </Link>
+          </Button>
           <Button color="inherit" onClick={handleClickOpen}>
             Register
           </Button>

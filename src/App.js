@@ -2,15 +2,12 @@ import './App.css';
 
 import Header from 'components/Header';
 import AlbumFeature from 'features/Ablum';
+import ArticleList from 'features/Blog/components/ArticleList';
 import CounterFeature from 'features/Counter';
 import Footer from 'features/Footer';
 import TodoFeature from 'features/Todo';
 import { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-
-import { Button } from '../node_modules/@material-ui/core';
-import { useSnackbar } from '../node_modules/notistack/dist';
-import articleApi from 'api/articleApi';
 
 function App() {
   // useEffect(() => {
@@ -34,21 +31,15 @@ function App() {
 
   // console.log(articles);
 
-  const { enqueueSnackbar } = useSnackbar();
-
-  const showNoti = () => {
-    enqueueSnackbar('Register successfully', { variant: 'success' });
-  };
-
   return (
     <div>
       <Header />
-      <Button onClick={showNoti}>Show notification</Button>
       <Switch>
         {/* <Route path="/" component={TodoFeature} exact /> */}
         <Route path="/" component={CounterFeature} exact />
         <Route path="/todo-list" component={TodoFeature} />
         <Route path="/album" component={AlbumFeature} />
+        <Route path="/blog" component={ArticleList} />
         {/* <Route component={NotFoundFeature} /> */}
       </Switch>
       <Footer />

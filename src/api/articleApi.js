@@ -2,7 +2,7 @@ import axiosClientRealWorld from './axiosClientRealWorld.js';
 
 const articleApi = {
   getAll(params) {
-    const url = '/articles?limit=5';
+    const url = '/articles?limit=4';
     return axiosClientRealWorld.get(url, { params });
   },
 
