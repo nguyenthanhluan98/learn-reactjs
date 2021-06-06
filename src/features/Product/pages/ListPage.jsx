@@ -7,6 +7,8 @@ import { Box, Container, Grid, Paper } from '@material-ui/core';
 import ProductList from '../components/ProductList';
 import { Pagination } from '@material-ui/lab';
 import ProductSort from '../components/ProductSort';
+import ProductFilters from '../components/ProductFilters';
+import CategoryListSkeleton from '../components/CategoryListSkeleton';
 
 ListPage.propTypes = {};
 
@@ -48,8 +50,6 @@ function ListPage(props) {
         const { data, pagination } = await productApi.getAll(filters);
         setPagination(pagination);
         setProductList(data);
-
-        console.log('pagination update filter: ', pagination);
       } catch (error) {
         console.log('Failed to loading product list');
       }
@@ -72,16 +72,29 @@ function ListPage(props) {
     }));
   };
 
+  const handleFiltersChange = (newFilters) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      ...newFilters,
+    }));
+  };
+
   return (
     <Box className={classes.root}>
       <Container>
         <Grid spacing={1} container>
           <Grid className={classes.left} item>
-            <Paper elevation={0}>Filter form</Paper>
+            <Paper elevation={0}>
+              {loading ? (
+                <CategoryListSkeleton length={6} />
+              ) : (
+                <ProductFilters filters={filters} onChange={handleFiltersChange} />
+              )}
+            </Paper>
           </Grid>
           <Grid className={classes.right} item>
             <Paper elevation={0}>
-              <ProductSort float="left" currentSort={filters._sort} onChange={handleSortChange} />
+              <ProductSort currentSort={filters._sort} onChange={handleSortChange} />
               {loading ? <ProductListSkeleton length={9} /> : <ProductList data={productList} />}
               <Box className={classes.pagination}>
                 <Pagination
