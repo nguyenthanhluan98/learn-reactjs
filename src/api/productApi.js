@@ -3,7 +3,7 @@ import axiosClient from './axiosClient';
 const productApi = {
   async getAll(params) {
     const newParams = { ...params };
-    newParams._start = !newParams._page || params.page <= 1 ? 0 : (params._page - 1) * params._limit || 50;
+    newParams._start = !newParams._page || params._page <= 1 ? 0 : (params._page - 1) * params._limit || 50;
 
     delete newParams._page;
 

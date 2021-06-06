@@ -6,6 +6,7 @@ import ProductListSkeleton from '../components/ProductListSkeleton';
 import { Box, Container, Grid, Paper } from '@material-ui/core';
 import ProductList from '../components/ProductList';
 import { Pagination } from '@material-ui/lab';
+import ProductSort from '../components/ProductSort';
 
 ListPage.propTypes = {};
 
@@ -33,6 +34,7 @@ function ListPage(props) {
   const [filters, setFilters] = useState({
     _page: 1,
     _limit: 9,
+    _sort: 'salePrice:ASC',
   });
   const [pagination, setPagination] = useState({
     limit: 9,
@@ -63,6 +65,13 @@ function ListPage(props) {
     }));
   };
 
+  const handleSortChange = (newSortValue) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      _sort: newSortValue,
+    }));
+  };
+
   return (
     <Box className={classes.root}>
       <Container>
@@ -72,6 +81,7 @@ function ListPage(props) {
           </Grid>
           <Grid className={classes.right} item>
             <Paper elevation={0}>
+              <ProductSort float="left" currentSort={filters._sort} onChange={handleSortChange} />
               {loading ? <ProductListSkeleton length={9} /> : <ProductList data={productList} />}
               <Box className={classes.pagination}>
                 <Pagination

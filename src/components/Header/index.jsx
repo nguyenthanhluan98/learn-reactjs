@@ -110,6 +110,11 @@ function Header(props) {
             </Link>
           </Button>
           <Button color="inherit">
+            <Link className={classes.tabLink} to="/products">
+              Product list
+            </Link>
+          </Button>
+          <Button color="inherit">
             <Link className={classes.tabLink} to="/album">
               Album
             </Link>
