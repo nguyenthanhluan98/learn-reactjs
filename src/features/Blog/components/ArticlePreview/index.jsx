@@ -1,17 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from '../../../../../node_modules/@material-ui/icons/index';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import {
   Avatar,
-  Divider,
-  Grid,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   Typography,
-} from '../../../../../node_modules/@material-ui/core/index';
+} from '../../../../../node_modules/@material-ui/core';
 
 ArticlePreview.propTypes = {
   article: PropTypes.object,

@@ -1,0 +1,19 @@
+import React from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router';
+import { Box } from '../../../node_modules/@material-ui/core/index';
+import ListPage from './pages/ListPage';
+
+ProductFeature.propTypes = {};
+
+function ProductFeature(props) {
+  const match = useRouteMatch();
+  return (
+    <Box pt={4}>
+      <Switch>
+        <Route path={match.path} component={ListPage} />
+      </Switch>
+    </Box>
+  );
+}
+
+export default ProductFeature;

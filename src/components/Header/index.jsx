@@ -89,6 +89,7 @@ function Header(props) {
   const handleLogout = () => {
     const action = logout();
     dispatch(action);
+    setAnchorEl(null);
   };
 
   return (

@@ -1,15 +1,23 @@
 import './App.css';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Header from 'components/Header';
 import AlbumFeature from 'features/Ablum';
 import ArticleList from 'features/Blog/components/ArticleList';
 import CounterFeature from 'features/Counter';
-import Footer from 'features/Footer';
+import ProductFeature from 'features/Product';
 import TodoFeature from 'features/Todo';
-import { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: '#EFEFEF',
+    minHeight: '900px',
+  },
+}));
+
 function App() {
+  const classes = useStyles();
   // useEffect(() => {
   //   const fetchProducts = async () => {
   //     const productList = await categoryApi.getAll();
@@ -32,7 +40,7 @@ function App() {
   // console.log(articles);
 
   return (
-    <div>
+    <div className={classes.root}>
       <Header />
       <Switch>
         {/* <Route path="/" component={TodoFeature} exact /> */}
@@ -40,9 +48,10 @@ function App() {
         <Route path="/todo-list" component={TodoFeature} />
         <Route path="/album" component={AlbumFeature} />
         <Route path="/blog" component={ArticleList} />
+        <Route path="/products" component={ProductFeature} />
         {/* <Route component={NotFoundFeature} /> */}
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
