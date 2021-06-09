@@ -38,7 +38,7 @@ function CategoryListSkeleton({ length }) {
       <ul className={classes.menu}>
         {Array.from(new Array(length)).map((index) => (
           <Box padding={1}>
-            <Skeleton minHeight="100px" />
+            <Skeleton key={index} minHeight="100px" />
           </Box>
         ))}
       </ul>

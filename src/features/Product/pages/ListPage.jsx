@@ -73,6 +73,7 @@ function ListPage(props) {
   };
 
   const handleFiltersChange = (newFilters) => {
+    console.log('pre | new filter ', { filters, newFilters });
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
