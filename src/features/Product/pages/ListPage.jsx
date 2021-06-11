@@ -77,6 +77,7 @@ function ListPage(props) {
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
+      _page: 1,
     }));
   };
 
@@ -87,7 +88,7 @@ function ListPage(props) {
           <Grid className={classes.left} item>
             <Paper elevation={0}>
               {loading ? (
-                <CategoryListSkeleton length={6} />
+                <CategoryListSkeleton minHeight="150px" length={6} />
               ) : (
                 <ProductFilters filters={filters} onChange={handleFiltersChange} />
               )}

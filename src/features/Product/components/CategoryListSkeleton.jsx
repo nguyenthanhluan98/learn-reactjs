@@ -34,11 +34,11 @@ const useStyles = makeStyles((theme) => ({
 function CategoryListSkeleton({ length }) {
   const classes = useStyles();
   return (
-    <Box className={classes.root} minHeight="150px">
+    <Box className={classes.root}>
       <ul className={classes.menu}>
-        {Array.from(new Array(length)).map((index) => (
-          <Box padding={1}>
-            <Skeleton key={index} minHeight="100px" />
+        {Array.from(new Array(length)).map((_, value) => (
+          <Box key={value} padding={1}>
+            <Skeleton key={value} minHeight="100px" />
           </Box>
         ))}
       </ul>
