@@ -29,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function numberWithCommas(x) {
-  var parts = x.toString().split(',');
+  var parts = x.toString().split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return parts.join(',');
+  return parts.join('.');
 }
 
 function FilterByPrice({ onChange }) {

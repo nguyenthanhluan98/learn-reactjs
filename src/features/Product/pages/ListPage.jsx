@@ -27,6 +27,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '20px',
     paddingBottom: '20px',
   },
+  freeShip: {
+    position: 'absolute',
+    top: '10px',
+    left: '10px',
+
+    padding: '5px',
+    backgroundColor: 'white',
+    border: '2px solid red',
+  },
 }));
 
 function ListPage(props) {
@@ -73,12 +82,13 @@ function ListPage(props) {
   };
 
   const handleFiltersChange = (newFilters) => {
-    console.log('pre | new filter ', { filters, newFilters });
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
       _page: 1,
     }));
+
+    console.log('pre | new filter ', { filters, newFilters });
   };
 
   return (
