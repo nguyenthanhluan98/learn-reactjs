@@ -9,6 +9,7 @@ import { Pagination } from '@material-ui/lab';
 import ProductSort from '../components/ProductSort';
 import ProductFilters from '../components/ProductFilters';
 import CategoryListSkeleton from '../components/CategoryListSkeleton';
+import FilterViewer from './../components/FilterViewer';
 
 ListPage.propTypes = {};
 
@@ -85,7 +86,6 @@ function ListPage(props) {
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
-      _page: 1,
     }));
 
     console.log('pre | new filter ', { filters, newFilters });
@@ -107,6 +107,7 @@ function ListPage(props) {
           <Grid className={classes.right} item>
             <Paper elevation={0}>
               <ProductSort currentSort={filters._sort} onChange={handleSortChange} />
+              <FilterViewer filters={filters} onChange={handleFiltersChange} />
               {loading ? <ProductListSkeleton length={9} /> : <ProductList data={productList} />}
               <Box className={classes.pagination}>
                 <Pagination

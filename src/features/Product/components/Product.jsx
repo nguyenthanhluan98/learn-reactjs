@@ -25,8 +25,6 @@ function Product({ product }) {
   const thumbnailUrl = product.thumbnail ? `${STATIC_HOST}${product.thumbnail?.url}` : THUMBNAIL_URL;
   const classes = useStyles();
 
-  console.log('isFreeShip: ', product.promotionPrice);
-
   return (
     <Box padding={1}>
       <Box className={classes.myContainer} padding={1} minHeight="215px">
