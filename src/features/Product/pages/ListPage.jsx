@@ -86,9 +86,8 @@ function ListPage(props) {
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
+      _page: 1,
     }));
-
-    console.log('pre | new filter ', { filters, newFilters });
   };
 
   return (

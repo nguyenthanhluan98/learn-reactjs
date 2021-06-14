@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 function FilterViewer({ filters = {}, onChange = null }) {
   const classes = useStyles();
 
-  //console.log('Filter viewer: ', filters);
+  console.log('Filter viewer: ', filters);
 
   const FILTER_LIST = [
     {
@@ -39,7 +39,8 @@ function FilterViewer({ filters = {}, onChange = null }) {
       onToggle: (filters) => {
         const newFilters = { ...filters };
         if (newFilters.isFreeShip) {
-          newFilters.isFreeShip = false;
+          delete newFilters.isFreeShip;
+          delete filters.isFreeShip;
         } else {
           newFilters.isFreeShip = true;
         }
@@ -50,17 +51,17 @@ function FilterViewer({ filters = {}, onChange = null }) {
       id: '2',
       getLabel: () => 'Có khuyến mãi',
       isActive: () => true,
-      isVisible: (filters) => {
-        if (filters.isPromotion) {
-          return true;
-        } else {
-          return false;
-        }
-      },
+      isVisible: (filters) => filters.isPromotion,
       isRemovable: true,
       onRemove: (filters) => {
         const newFilters = { ...filters };
-        newFilters.isPromotion = false;
+        if (newFilters.isPromotion) {
+          delete newFilters.isPromotion;
+          delete filters.isPromotion;
+        } else {
+          newFilters.isPromotion = false;
+        }
+
         return newFilters;
       },
       onToggle: () => null,
@@ -122,7 +123,6 @@ function FilterViewer({ filters = {}, onChange = null }) {
                 ? () => {
                     if (!onChange) return;
                     const newFilters = x.onRemove(filters);
-                    x.isVisible(newFilters);
                     onChange(newFilters);
                   }
                 : null
