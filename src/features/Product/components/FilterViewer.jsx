@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, Box, Chip } from '@material-ui/core';
 
@@ -23,87 +23,83 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const FILTER_LIST = [
+  {
+    id: '1',
+    getLabel: () => 'Miễn phí giao hàng',
+    isActive: (filters) => filters.isFreeShip,
+    isVisible: () => true,
+    isRemovable: false,
+    onRemove: () => {},
+    onToggle: (filters) => {
+      const newFilters = { ...filters };
+      if (newFilters.isFreeShip) {
+        delete newFilters.isFreeShip;
+      } else {
+        newFilters.isFreeShip = true;
+      }
+      return newFilters;
+    },
+  },
+  {
+    id: '2',
+    getLabel: () => 'Có khuyến mãi',
+    isActive: () => true,
+    isVisible: (filters) => filters.isPromotion,
+    isRemovable: true,
+    onRemove: (filters) => {
+      const newFilters = { ...filters };
+      if (newFilters.isPromotion) {
+        delete newFilters.isPromotion;
+      } else {
+        newFilters.isPromotion = false;
+      }
+
+      return newFilters;
+    },
+    onToggle: () => null,
+  },
+  {
+    id: '3',
+    getLabel: (filters) => `Từ ${filters.salePrice_gte} đến ${filters.salePrice_lte}`,
+    isActive: () => true,
+    isVisible: (filters) =>
+      Object.keys(filters).includes('salePrice_gte') && Object.keys(filters).includes('salePrice_lte'),
+    isRemovable: true,
+    onRemove: (filters) => {
+      const newFilters = { ...filters };
+      delete newFilters.salePrice_gte;
+      delete newFilters.salePrice_lte;
+      return newFilters;
+    },
+    onToggle: () => null,
+  },
+  {
+    id: '4',
+    getLabel: (filters) => `${filters['category.name']}`,
+    isActive: () => true,
+    isVisible: (filters) => filters['category.name'],
+    isRemovable: true,
+    onRemove: (filters) => {
+      const newFilters = { ...filters };
+      delete newFilters['category.id'];
+      delete newFilters['category.name'];
+      return newFilters;
+    },
+    onToggle: () => null,
+  },
+];
+
 function FilterViewer({ filters = {}, onChange = null }) {
   const classes = useStyles();
 
-  console.log('Filter viewer: ', filters);
-
-  const FILTER_LIST = [
-    {
-      id: '1',
-      getLabel: () => 'Miễn phí giao hàng',
-      isActive: (filters) => filters.isFreeShip,
-      isVisible: () => true,
-      isRemovable: false,
-      onRemove: () => {},
-      onToggle: (filters) => {
-        const newFilters = { ...filters };
-        if (newFilters.isFreeShip) {
-          delete newFilters.isFreeShip;
-          delete filters.isFreeShip;
-        } else {
-          newFilters.isFreeShip = true;
-        }
-        return newFilters;
-      },
-    },
-    {
-      id: '2',
-      getLabel: () => 'Có khuyến mãi',
-      isActive: () => true,
-      isVisible: (filters) => filters.isPromotion,
-      isRemovable: true,
-      onRemove: (filters) => {
-        const newFilters = { ...filters };
-        if (newFilters.isPromotion) {
-          delete newFilters.isPromotion;
-          delete filters.isPromotion;
-        } else {
-          newFilters.isPromotion = false;
-        }
-
-        return newFilters;
-      },
-      onToggle: () => null,
-    },
-    {
-      id: '3',
-      getLabel: (filters) => `Từ ${filters.salePrice_gte} đến ${filters.salePrice_lte}`,
-      isActive: () => true,
-      isVisible: (filters) =>
-        Object.keys(filters).includes('salePrice_gte') && Object.keys(filters).includes('salePrice_lte'),
-      isRemovable: true,
-      onRemove: (filters) => {
-        const newFilters = { ...filters };
-        delete newFilters.salePrice_gte;
-        delete newFilters.salePrice_lte;
-        delete filters.salePrice_gte;
-        delete filters.salePrice_lte;
-        return newFilters;
-      },
-      onToggle: () => null,
-    },
-    {
-      id: '4',
-      getLabel: (filters) => `${filters['category.name']}`,
-      isActive: () => true,
-      isVisible: (filters) => filters['category.name'],
-      isRemovable: true,
-      onRemove: (filters) => {
-        const newFilters = { ...filters };
-        delete newFilters['category.id'];
-        delete newFilters['category.name'];
-        delete filters['category.id'];
-        delete filters['category.name'];
-        return newFilters;
-      },
-      onToggle: () => null,
-    },
-  ];
+  const visibleFilter = useMemo(() => {
+    return FILTER_LIST.filter((x) => x.isVisible(filters));
+  }, [filters]);
 
   return (
     <Box component="ul" className={classes.root}>
-      {FILTER_LIST.filter((x) => x.isVisible(filters)).map((x) => (
+      {visibleFilter.map((x) => (
         <li key={x.id}>
           <Chip
             label={x.getLabel(filters)}

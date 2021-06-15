@@ -180,16 +180,6 @@ function ListPage(props) {
                 </Grid>
               </Grid>
             </div>
-
-            {/* <Button variant="contained" color="secondary" onClick={handleShowAllClick}>
-              Show all
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleShowCompletedClick}>
-              Show completed
-            </Button>
-            <Button variant="contained" onClick={handleShowNewClick}>
-              Show new
-            </Button> */}
           </Container>
         </div>
       </main>
