@@ -3,6 +3,7 @@ import { STATIC_HOST, THUMBNAIL_URL } from 'constants/index';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 Product.propTypes = {
   Product: PropTypes.object,
@@ -22,11 +23,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Product({ product }) {
+  const history = useHistory();
   const thumbnailUrl = product.thumbnail ? `${STATIC_HOST}${product.thumbnail?.url}` : THUMBNAIL_URL;
   const classes = useStyles();
 
+  const handleClick = () => {
+    history.push(`products/${product.id}`);
+  };
+
   return (
-    <Box padding={1}>
+    <Box onClick={handleClick} padding={1}>
       <Box className={classes.myContainer} padding={1} minHeight="215px">
         <img src={thumbnailUrl} alt={product.name} width="100%" />
         {product.isFreeShip ? <div className={classes.freeShip}>Free ship</div> : ''}

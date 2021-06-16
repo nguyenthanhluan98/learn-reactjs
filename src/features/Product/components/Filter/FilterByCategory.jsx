@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Box, Typography } from '@material-ui/core';
-import categoryApi from 'api/categoryApi';
 import { makeStyles } from '@material-ui/core/styles';
+import categoryApi from 'api/categoryApi';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
 FilterByCategory.propTypes = {
   onChange: PropTypes.func,
@@ -43,7 +43,6 @@ function FilterByCategory({ onChange }) {
             name: category.name,
           }))
         );
-        console.log(categoryList);
       } catch (error) {
         console.log('Failed to fetch category list');
       }

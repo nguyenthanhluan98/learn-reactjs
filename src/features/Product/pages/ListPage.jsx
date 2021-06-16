@@ -74,7 +74,6 @@ function ListPage(props) {
       } catch (error) {
         console.log('Failed to loading product list');
       }
-
       setLoading(false);
     })();
   }, [filters]);
@@ -118,11 +117,7 @@ function ListPage(props) {
         <Grid spacing={1} container>
           <Grid className={classes.left} item>
             <Paper elevation={0}>
-              {loading ? (
-                <CategoryListSkeleton minHeight="150px" length={6} />
-              ) : (
-                <ProductFilters filters={filters} onChange={handleFiltersChange} />
-              )}
+              <ProductFilters filters={filters} onChange={handleFiltersChange} />
             </Paper>
           </Grid>
           <Grid className={classes.right} item>

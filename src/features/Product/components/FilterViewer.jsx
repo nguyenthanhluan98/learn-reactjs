@@ -96,7 +96,6 @@ function FilterViewer({ filters = {}, onChange = null }) {
   const visibleFilter = useMemo(() => {
     return FILTER_LIST.filter((x) => x.isVisible(filters));
   }, [filters]);
-
   return (
     <Box component="ul" className={classes.root}>
       {visibleFilter.map((x) => (

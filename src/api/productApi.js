@@ -22,7 +22,7 @@ const productApi = {
   },
 
   get(id) {
-    const url = `/categories/${id}`;
+    const url = `/products/${id}`;
     return axiosClient.get(url);
   },
 
