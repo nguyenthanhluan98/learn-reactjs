@@ -2,9 +2,14 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Container, Paper, Grid } from '@material-ui/core';
 import ProductThumbnail from './../components/ProductThumbnail';
-import { useRouteMatch } from 'react-router-dom';
+import { Route, useRouteMatch } from 'react-router-dom';
 import useProductDetails from '../hooks/useProductDetails';
 import ProductInformation from './../components/ProductInformation';
+import AddToCartForm from './../components/AddToCartForm';
+import ProductMenu from './../components/ProductMenu';
+import ProductDescription from './../components/ProductDescription';
+import ProductAdditional from '../components/ProductAdditional';
+import ProductReview from '../components/ProductReview';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -23,6 +28,7 @@ function DetailsPage() {
   const classes = useStyles();
   const {
     params: { productId },
+    url,
   } = useRouteMatch();
 
   const { product, loading } = useProductDetails(productId);
@@ -35,6 +41,10 @@ function DetailsPage() {
     );
   }
 
+  const handleAddToCartSubmit = (formValues) => {
+    console.log(formValues);
+  };
+
   return (
     <Box className={classes.root}>
       <Container>
@@ -45,9 +55,16 @@ function DetailsPage() {
             </Grid>
             <Grid className={classes.right} item>
               <ProductInformation product={product} />
+              <AddToCartForm onSubmit={handleAddToCartSubmit} />
             </Grid>
           </Grid>
         </Paper>
+        <ProductMenu />
+        <Route exact path={url}>
+          <ProductDescription />
+        </Route>
+        <Route path={`${url}/additional`} component={ProductAdditional}></Route>
+        <Route path={`${url}/reviews`} component={ProductReview}></Route>
       </Container>
     </Box>
   );
