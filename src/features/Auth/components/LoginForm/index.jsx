@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const schema = yup.object().shape({
-  identifier: yup.string().required('Please enter your email 23').email('Please enter valid email'),
+  identifier: yup.string().required('Please enter your email').email('Please enter valid email'),
   password: yup.string().required('Please enter your password').min(6, 'Please enter at least 6 characters'),
 });
 

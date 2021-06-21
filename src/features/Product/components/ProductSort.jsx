@@ -16,8 +16,8 @@ function ProductSort({ currentSort, onChange }) {
 
   return (
     <Tabs value={currentSort} onChange={handleSortChange} indicatorColor="primary" textColor="primary">
-      <Tab label="Sap xep theo gia tang dan" value="salePrice:ASC"></Tab>
-      <Tab label="Sap xep theo gia giam dan" value="salePrice:DESC"></Tab>
+      <Tab label="Sắp xếp theo giá tăng dần" value="salePrice:ASC"></Tab>
+      <Tab label="Sắp xếp theo giá giảm dần" value="salePrice:DESC"></Tab>
     </Tabs>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Container, Paper, Grid } from '@material-ui/core';
 import ProductThumbnail from './../components/ProductThumbnail';
@@ -30,6 +30,11 @@ function DetailsPage() {
     params: { productId },
     url,
   } = useRouteMatch();
+
+  // issue: scroll down --> details page then vertical scroll still on the bottom --> scroll on the top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const { product, loading } = useProductDetails(productId);
 
