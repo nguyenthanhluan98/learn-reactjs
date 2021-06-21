@@ -33,7 +33,7 @@ function DetailsPage() {
 
   // issue: scroll down --> details page then vertical scroll still on the bottom --> scroll on the top
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
 
   const { product, loading } = useProductDetails(productId);
