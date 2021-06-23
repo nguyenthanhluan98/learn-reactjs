@@ -1,9 +1,9 @@
-import { Box, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { Typography } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 FilterByService.propTypes = {
   onChange: PropTypes.func,

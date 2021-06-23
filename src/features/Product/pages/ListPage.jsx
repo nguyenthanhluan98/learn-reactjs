@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-
-import productApi from 'api/productApi';
-import ProductListSkeleton from '../components/ProductListSkeleton';
 import { Box, Container, Grid, Paper } from '@material-ui/core';
-import ProductList from '../components/ProductList';
+import { makeStyles } from '@material-ui/core/styles';
 import { Pagination } from '@material-ui/lab';
-import ProductSort from '../components/ProductSort';
-import ProductFilters from '../components/ProductFilters';
-import CategoryListSkeleton from '../components/CategoryListSkeleton';
-import FilterViewer from './../components/FilterViewer';
-import { useHistory, useLocation } from 'react-router-dom';
-
+import productApi from 'api/productApi';
 import queryString from 'query-string';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import ProductFilters from '../components/ProductFilters';
+import ProductList from '../components/ProductList';
+import ProductListSkeleton from '../components/ProductListSkeleton';
+import ProductSort from '../components/ProductSort';
+import FilterViewer from './../components/FilterViewer';
 
 ListPage.propTypes = {};
 
@@ -51,6 +48,11 @@ function ListPage(props) {
 
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // issue: scroll down --> details page then vertical scroll still on the bottom --> scroll on the top
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, []);
 
   const [filters, setFilters] = useState(() => ({
     ...queryParams,

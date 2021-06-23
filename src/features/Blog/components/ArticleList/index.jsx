@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
 import articleApi from 'api/articleApi';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import ArticlePreview from '../ArticlePreview/index';
 
 ArticleList.propTypes = {
@@ -12,10 +11,7 @@ ArticleList.defaultProps = {
   articleList: [],
 };
 
-const useStyles = makeStyles((theme) => ({}));
-
 function ArticleList(props) {
-  const classes = useStyles();
   const [articleList, setArticleList] = useState([]);
 
   useEffect(() => {

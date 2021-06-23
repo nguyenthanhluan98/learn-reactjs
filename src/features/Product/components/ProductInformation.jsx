@@ -1,6 +1,5 @@
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, Box, Typography } from '@material-ui/core';
 import { formatPrice } from 'utils';
 
 ProductInformation.propTypes = {};

@@ -5,7 +5,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
@@ -43,19 +42,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }));
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 function AlbumFeature(props) {
   const classes = useStyles();

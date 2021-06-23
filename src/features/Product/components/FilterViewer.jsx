@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import { Box, Chip, makeStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { makeStyles, Box, Chip } from '@material-ui/core';
+import React, { useMemo } from 'react';
 
 FilterViewer.propTypes = {
   filters: PropTypes.object,

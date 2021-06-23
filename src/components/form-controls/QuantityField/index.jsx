@@ -1,11 +1,10 @@
-import { FormHelperText, Box, makeStyles, Typography } from '@material-ui/core';
+import { Box, FormHelperText, IconButton, makeStyles, Typography } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { AddCircleOutline, RemoveCircleOutlined } from '@material-ui/icons';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
-import { IconButton } from '@material-ui/core';
 
 QuantityField.propTypes = {
   form: PropTypes.object.isRequired,
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function QuantityField(props) {
   const { form, name, label } = props;
-  const { errors, setValue, control } = form;
+  const { setValue, control } = form;
   const classes = useStyles();
 
   return (
