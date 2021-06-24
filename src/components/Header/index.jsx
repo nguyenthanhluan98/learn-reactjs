@@ -9,12 +9,14 @@ import Typography from '@material-ui/core/Typography';
 import Login from 'features/Auth/components/Login';
 import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
+import { cartItemsCountSelector } from 'features/Cart/selector';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Box } from '../../../node_modules/@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+import { Badge, Box } from '../../../node_modules/@material-ui/core';
 import { Menu, MenuItem } from '../../../node_modules/@material-ui/core/index';
-import { AccountCircle, Close } from '../../../node_modules/@material-ui/icons';
+import { AccountCircle, Close, ShoppingCart } from '../../../node_modules/@material-ui/icons';
+import AdbIcon from '@material-ui/icons/Adb';
 
 Header.propTypes = {};
 
@@ -69,8 +71,10 @@ function Header(props) {
 
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
+  const history = useHistory();
 
   const loggedInUser = useSelector((state) => state.user.current);
+  const cartItemsCount = useSelector(cartItemsCountSelector);
   const isLoggedIn = !!loggedInUser.id;
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -97,13 +101,17 @@ function Header(props) {
     setAnchorEl(null);
   };
 
+  const handleCartClick = () => {
+    history.push('/cart');
+  };
+
   return (
     <div>
       <AppBar position="static">
         <Toolbar>
-          <Button className={classes.logoImage}>
+          {/* <Button className={classes.logoImage}>
             <img className={classes.image} src={process.env.PUBLIC_URL + '/images/logo.png'} alt="My logo" />
-          </Button>
+          </Button> */}
           {/* <IconButton edge="start" className={classes.menuButton} aria-label="menu">
             <img
               className={classes.image}
@@ -112,8 +120,14 @@ function Header(props) {
               width="100%"
             />
           </IconButton> */}
+
           <Typography variant="h6" className={classes.title}>
             <Link className={classes.tabLink} to="/">
+              <IconButton aria-label="show 4 new mails" onClick={handleCartClick} color="inherit">
+                <Badge color="secondary">
+                  <AdbIcon />
+                </Badge>
+              </IconButton>
               My shop
             </Link>
           </Typography>
@@ -144,6 +158,11 @@ function Header(props) {
               Login
             </Button>
           )}
+          <IconButton aria-label="show 4 new mails" onClick={handleCartClick} color="inherit">
+            <Badge badgeContent={cartItemsCount} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
 

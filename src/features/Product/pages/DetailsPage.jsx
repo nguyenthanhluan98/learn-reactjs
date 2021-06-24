@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import { Box, Container, Grid, LinearProgress, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Container, Paper, Grid, LinearProgress } from '@material-ui/core';
-import ProductThumbnail from './../components/ProductThumbnail';
+import { addToCart } from 'features/Cart/cartSlice';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Route, useRouteMatch } from 'react-router-dom';
-import useProductDetails from '../hooks/useProductDetails';
-import ProductInformation from './../components/ProductInformation';
-import AddToCartForm from './../components/AddToCartForm';
-import ProductMenu from './../components/ProductMenu';
-import ProductDescription from './../components/ProductDescription';
 import ProductAdditional from '../components/ProductAdditional';
 import ProductReview from '../components/ProductReview';
-import { useDispatch } from 'react-redux';
-import { addToCart } from 'features/Cart/cartSlice';
+import useProductDetails from '../hooks/useProductDetails';
+import AddToCartForm from './../components/AddToCartForm';
+import ProductDescription from './../components/ProductDescription';
+import ProductInformation from './../components/ProductInformation';
+import ProductMenu from './../components/ProductMenu';
+import ProductThumbnail from './../components/ProductThumbnail';
 
 const useStyles = makeStyles((theme) => ({
   root: {
