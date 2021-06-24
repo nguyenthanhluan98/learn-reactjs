@@ -75,8 +75,6 @@ function Header(props) {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  console.log('status: ', isLoggedIn);
-
   const handleClickOpen = () => {
     setOpen(true);
   };

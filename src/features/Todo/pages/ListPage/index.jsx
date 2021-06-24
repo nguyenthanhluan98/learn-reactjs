@@ -82,15 +82,14 @@ function ListPage(props) {
 
   const [filteredStatus, setFilteredStatus] = useState(() => {
     const params = queryString.parse(location.search);
-    console.log('filter: ', params);
     return params.status || 'all';
   });
 
   // useEffect get location in URL then will change by status
   useEffect(() => {
     const params = queryString.parse(location.search);
-    console.log('filter useEffect(): ', params);
-    console.log('match path: ', location.search);
+    // console.log('filter useEffect(): ', params);
+    // console.log('match path: ', location.search);
     setFilteredStatus(params.status || 'all');
   }, [location.search]);
 

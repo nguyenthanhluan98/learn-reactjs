@@ -35,8 +35,6 @@ function ProductInformation({ product }) {
   const classes = useStyles();
   const { name, originalPrice, promotionPercent, salePrice, shortDescription } = product;
 
-  console.log(product);
-
   return (
     <Box className={classes.root}>
       <Typography component="h1" variant="h4">
