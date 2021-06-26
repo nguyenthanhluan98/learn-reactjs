@@ -20,6 +20,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Badge, Box } from '../../../node_modules/@material-ui/core';
 import { Menu, MenuItem } from '../../../node_modules/@material-ui/core/index';
+import { PropTypes } from 'prop-types';
+
+Header.propTypes = {
+  cartItemsCount: PropTypes.number,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,12 +64,16 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '80vh',
     maxHeight: '80vh',
   },
+  cartBox: {
+    height: '100%',
+    width: '250px',
+  },
   miniCart: {
     marginTop: theme.spacing(4),
   },
   cartContent: {
     display: 'flex',
-    flexFlow: 'column',
+    flexFlow: 'column nowrap',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: theme.spacing(4),
@@ -95,6 +104,8 @@ function Header(props) {
 
   console.log('items count change: ', cartItemsCount);
 
+  console.log('mini cart status: ', isMiniCartVisible);
+
   useEffect(() => {
     if (cartItemsCount > 0) {
       const action = showMiniCart();
@@ -108,10 +119,6 @@ function Header(props) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [anchorEl1, setAnchorEl1] = useState(null);
-
-  const handleClickCart = (event) => {
-    setAnchorEl1(event.currentTarget);
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -139,9 +146,9 @@ function Header(props) {
     history.push('/cart');
   };
 
-  const handleCloseMiniCart = () => {
+  const handleCloseMiniCart = (event) => {
     const action = hideMiniCart();
-    console.log('hide: ', action);
+    setAnchorEl1(null);
     dispatch(action);
   };
 
@@ -222,7 +229,7 @@ function Header(props) {
                 <CloseIcon />
               </IconButton>
               <Box className={classes.cartContent}>
-                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                <Typography className={classes.typography}>Add item successfully</Typography>
                 <Button
                   className={classes.cartBtn}
                   fullWidth
