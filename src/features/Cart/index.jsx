@@ -6,13 +6,9 @@ CartFeature.propTypes = {};
 
 function CartFeature(props) {
   const cartTotal = useSelector(cartTotalSelector);
-  const items = useSelector((state) => state.cart.cartItems);
+  // const items = useSelector((state) => state.cart.cartItems);
 
-  return (
-    <div>
-      Cart feature {cartTotal} | {items[0].id}
-    </div>
-  );
+  return <div>Cart feature {cartTotal}</div>;
 }
 
 export default CartFeature;

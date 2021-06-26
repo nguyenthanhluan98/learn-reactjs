@@ -3,22 +3,23 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
+import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { AccountCircle, ShoppingCart } from '@material-ui/icons';
+import AdbIcon from '@material-ui/icons/Adb';
+import CloseIcon from '@material-ui/icons/Close';
 import Login from 'features/Auth/components/Login';
 import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
+import { hideMiniCart, showMiniCart } from 'features/Cart/cartSlice';
 import { cartItemsCountSelector } from 'features/Cart/selector';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Badge, Box } from '../../../node_modules/@material-ui/core';
 import { Menu, MenuItem } from '../../../node_modules/@material-ui/core/index';
-import { AccountCircle, Close, ShoppingCart } from '../../../node_modules/@material-ui/icons';
-import AdbIcon from '@material-ui/icons/Adb';
-
-Header.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +59,20 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '80vh',
     maxHeight: '80vh',
   },
+  miniCart: {
+    marginTop: theme.spacing(4),
+  },
+  cartContent: {
+    display: 'flex',
+    flexFlow: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(2),
+  },
+  cartBtn: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const MODE = {
@@ -71,13 +86,32 @@ function Header(props) {
 
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
+
   const history = useHistory();
 
   const loggedInUser = useSelector((state) => state.user.current);
   const cartItemsCount = useSelector(cartItemsCountSelector);
+  const isMiniCartVisible = useSelector((state) => state.cart.showMiniCart);
+
+  console.log('items count change: ', cartItemsCount);
+
+  useEffect(() => {
+    if (cartItemsCount > 0) {
+      const action = showMiniCart();
+      console.log('running');
+      dispatch(action);
+    }
+  }, [cartItemsCount]);
+
   const isLoggedIn = !!loggedInUser.id;
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [anchorEl1, setAnchorEl1] = useState(null);
+
+  const handleClickCart = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -103,6 +137,12 @@ function Header(props) {
 
   const handleCartClick = () => {
     history.push('/cart');
+  };
+
+  const handleCloseMiniCart = () => {
+    const action = hideMiniCart();
+    console.log('hide: ', action);
+    dispatch(action);
   };
 
   return (
@@ -163,6 +203,38 @@ function Header(props) {
               <ShoppingCart />
             </Badge>
           </IconButton>
+          <Popover
+            className={classes.miniCart}
+            open={isMiniCartVisible}
+            onClose={handleCloseMiniCart}
+            anchorEl={null}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <Box className={classes.cartBox}>
+              <IconButton className={classes.closeButton} onClick={handleCloseMiniCart}>
+                <CloseIcon />
+              </IconButton>
+              <Box className={classes.cartContent}>
+                <Typography className={classes.typography}>The content of the Popover.</Typography>
+                <Button
+                  className={classes.cartBtn}
+                  fullWidth
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleCartClick}
+                >
+                  Go to your cart
+                </Button>
+              </Box>
+            </Box>
+          </Popover>
         </Toolbar>
       </AppBar>
 
@@ -188,7 +260,7 @@ function Header(props) {
       </Menu>
       <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <IconButton className={classes.closeButton} onClick={handleClose}>
-          <Close />
+          <CloseIcon />
         </IconButton>
         <DialogContent style={{ overflow: 'hidden' }}>
           {mode === MODE.REGISTER && (

@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { Avatar, Button, Typography } from '@material-ui/core';
-import { LockOutlined } from '@material-ui/icons';
+import LockOutlined from '@material-ui/icons/LockOutlined';
 import InputField from 'components/form-controls/InputField';
 import { makeStyles } from '@material-ui/core/styles';
 import PasswordField from 'components/form-controls/PasswordField';
