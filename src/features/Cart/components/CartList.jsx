@@ -1,18 +1,25 @@
+import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import CartItem from './CartItem';
 
 CartList.propTypes = {};
 
+const useStyles = makeStyles((theme) => ({
+  cartItem: {
+    borderBottom: `1px solid ${theme.palette.grey[500]}`,
+  },
+}));
+
 function CartList(props) {
   // show all items add to cart  --> get cart items
   const cartItems = useSelector((state) => state.cart.cartItems);
-  console.log('cart Items: ', cartItems);
+  const classes = useStyles();
+
   return (
     <div>
       {cartItems.map((item) => (
-        <CartItem item={item} />
+        <CartItem className={classes.cartItem} item={item} />
       ))}
     </div>
   );

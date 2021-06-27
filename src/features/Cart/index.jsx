@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import CartList from './components/CartList';
 import ListPage from './pages/ListPage';
 import { cartTotalSelector } from './selector';
 
@@ -12,7 +11,7 @@ function CartFeature(props) {
 
   return (
     <div>
-      <CartList />
+      <ListPage />
     </div>
   );
 }

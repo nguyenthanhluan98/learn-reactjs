@@ -1,14 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, Box, Typography, Paper, Grid } from '@material-ui/core';
-import ProductThumbnail from 'features/Product/components/ProductThumbnail';
-import { formatPrice } from 'utils';
-import QuantityField from 'components/form-controls/QuantityField';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Grid, makeStyles, Paper } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import QuantityField from 'components/form-controls/QuantityField';
+import ProductThumbnail from 'features/Product/components/ProductThumbnail';
+import React from 'react';
 import { useForm } from 'react-hook-form';
+import { formatPrice } from 'utils';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 CartItem.propTypes = {};
 
@@ -68,8 +67,6 @@ function CartItem({ item }) {
 
   const { id, name, originalPrice, promotionPercent, salePrice } = item.product;
   const { quantity } = item;
-
-  console.log('quantity: ', id);
 
   const form = useForm({
     defaultValues: {
