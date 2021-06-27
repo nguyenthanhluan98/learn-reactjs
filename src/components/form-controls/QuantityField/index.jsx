@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
 function QuantityField(props) {
   const { form, name, label } = props;
   const { setValue, control } = form;
+
   const classes = useStyles();
+
+  console.log(props);
 
   return (
     <div className={classes.root}>
@@ -37,6 +40,7 @@ function QuantityField(props) {
       <Controller
         name={name}
         control={control}
+        setValue={props.value}
         render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { invalid, isTouched, error } }) => (
           <>
             <FormControl error={isTouched && invalid} fullWidth margin="normal" variant="outlined">
