@@ -1,6 +1,6 @@
 import { Box, Container, Grid, LinearProgress, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { addToCart } from 'features/Cart/cartSlice';
+import { addToCart, showMiniCart } from 'features/Cart/cartSlice';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, useRouteMatch } from 'react-router-dom';
@@ -48,6 +48,7 @@ function DetailsPage() {
   }, []);
 
   const { product, loading } = useProductDetails(productId);
+
   const dispatch = useDispatch();
   if (loading) {
     return (
@@ -64,6 +65,7 @@ function DetailsPage() {
       quantity,
     });
     dispatch(action);
+    dispatch(showMiniCart());
   };
 
   return (

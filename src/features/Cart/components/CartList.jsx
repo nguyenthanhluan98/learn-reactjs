@@ -19,7 +19,7 @@ function CartList(props) {
   return (
     <div>
       {cartItems.map((item) => (
-        <CartItem className={classes.cartItem} item={item} />
+        <CartItem key={item.id} className={classes.cartItem} item={item} />
       ))}
     </div>
   );

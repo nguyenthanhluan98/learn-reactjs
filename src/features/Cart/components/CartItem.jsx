@@ -4,12 +4,17 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import QuantityField from 'components/form-controls/QuantityField';
 import ProductThumbnail from 'features/Product/components/ProductThumbnail';
+import { PropTypes } from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { formatPrice } from 'utils';
 import * as yup from 'yup';
+import { removeFromCart, setQuantity } from '../cartSlice';
+import { useDispatch } from 'react-redux';
 
-CartItem.propTypes = {};
+CartItem.propTypes = {
+  onChange: PropTypes.func,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,12 +72,14 @@ function CartItem({ item }) {
 
   const { id, name, originalPrice, promotionPercent, salePrice } = item.product;
   const { quantity } = item;
+  const dispatch = useDispatch();
 
   const form = useForm({
     defaultValues: {
       quantity: quantity,
     },
-    mode: 'onChange',
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
     resolver: yupResolver(schema),
   });
 
@@ -83,6 +90,29 @@ function CartItem({ item }) {
     4. Total
     5. Delete button      
   */
+
+  const handleSubmit = (newValues) => {
+    console.log(newValues);
+  };
+
+  const handleQuantityChange = (newValue) => {
+    console.log(newValue);
+    // const { id, name } = item;
+    // console.log(event.target.value);
+    const action = setQuantity({
+      id: id,
+      quantity: newValue,
+    });
+    dispatch(action);
+  };
+
+  const handleRemoveCartItem = (event) => {
+    const action = removeFromCart({
+      id: id,
+    });
+    console.log(action);
+    dispatch(action);
+  };
 
   return (
     <Paper elevation={0}>
@@ -105,14 +135,12 @@ function CartItem({ item }) {
           </Box>
         </Grid>
         <Grid item>
-          <form>
-            <Box>
-              <QuantityField value={quantity} name="quantity" label="Quantity" form={form} />
-            </Box>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <QuantityField name="quantity" label="" form={form} onChange={handleQuantityChange} />
           </form>
         </Grid>
         <Grid item className={classes.deleteBtn}>
-          <IconButton className={classes.closeButton}>
+          <IconButton onClick={handleRemoveCartItem} className={classes.closeButton}>
             <DeleteIcon />
           </IconButton>
         </Grid>

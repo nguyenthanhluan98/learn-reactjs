@@ -13,14 +13,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import Login from 'features/Auth/components/Login';
 import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
-import { hideMiniCart, showMiniCart } from 'features/Cart/cartSlice';
+import { hideMiniCart } from 'features/Cart/cartSlice';
 import { cartItemsCountSelector } from 'features/Cart/selector';
-import React, { useEffect, useState } from 'react';
+import { PropTypes } from 'prop-types';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Badge, Box } from '../../../node_modules/@material-ui/core';
 import { Menu, MenuItem } from '../../../node_modules/@material-ui/core/index';
-import { PropTypes } from 'prop-types';
 
 Header.propTypes = {
   cartItemsCount: PropTypes.number,
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   cartBtn: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -100,19 +100,7 @@ function Header(props) {
 
   const loggedInUser = useSelector((state) => state.user.current);
   const cartItemsCount = useSelector(cartItemsCountSelector);
-  const isMiniCartVisible = useSelector((state) => state.cart.showMiniCart);
-
-  console.log('items count change: ', cartItemsCount);
-
-  console.log('mini cart status: ', isMiniCartVisible);
-
-  useEffect(() => {
-    if (cartItemsCount > 0) {
-      const action = showMiniCart();
-      console.log('running');
-      dispatch(action);
-    }
-  }, [cartItemsCount]);
+  const showMiniCart = useSelector((state) => state.cart.showMiniCart);
 
   const isLoggedIn = !!loggedInUser.id;
 
@@ -156,18 +144,6 @@ function Header(props) {
     <div>
       <AppBar position="static">
         <Toolbar>
-          {/* <Button className={classes.logoImage}>
-            <img className={classes.image} src={process.env.PUBLIC_URL + '/images/logo.png'} alt="My logo" />
-          </Button> */}
-          {/* <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-            <img
-              className={classes.image}
-              src={process.env.PUBLIC_URL + '/images/logo.png'}
-              alt="My logo"
-              width="100%"
-            />
-          </IconButton> */}
-
           <Typography variant="h6" className={classes.title}>
             <Link className={classes.tabLink} to="/">
               <IconButton aria-label="show 4 new mails" onClick={handleCartClick} color="inherit">
@@ -210,38 +186,40 @@ function Header(props) {
               <ShoppingCart />
             </Badge>
           </IconButton>
-          <Popover
-            className={classes.miniCart}
-            open={isMiniCartVisible}
-            onClose={handleCloseMiniCart}
-            anchorEl={null}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <Box className={classes.cartBox}>
-              <IconButton className={classes.closeButton} onClick={handleCloseMiniCart}>
-                <CloseIcon />
-              </IconButton>
-              <Box className={classes.cartContent}>
-                <Typography className={classes.typography}>Add item successfully</Typography>
-                <Button
-                  className={classes.cartBtn}
-                  fullWidth
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleCartClick}
-                >
-                  Go to your cart
-                </Button>
+          {showMiniCart && (
+            <Popover
+              className={classes.miniCart}
+              open={showMiniCart}
+              onClose={handleCloseMiniCart}
+              anchorEl={anchorEl1}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              <Box className={classes.cartBox}>
+                <IconButton className={classes.closeButton} onClick={handleCloseMiniCart}>
+                  <CloseIcon />
+                </IconButton>
+                <Box className={classes.cartContent}>
+                  <Typography variant="subtitle1">Add item successfully</Typography>
+                  <Button
+                    className={classes.cartBtn}
+                    fullWidth
+                    color="secondary"
+                    variant="contained"
+                    onClick={handleCartClick}
+                  >
+                    Go to your cart
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          </Popover>
+            </Popover>
+          )}
         </Toolbar>
       </AppBar>
 

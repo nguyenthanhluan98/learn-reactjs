@@ -27,12 +27,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function QuantityField(props) {
-  const { form, name, label } = props;
+  const { form, name, label, onChange } = props;
   const { setValue, control } = form;
 
   const classes = useStyles();
 
-  console.log(props);
+  const handleChange = (newValue) => {
+    form.setValue(name, newValue);
+    if (onChange) onChange(newValue);
+  };
 
   return (
     <div className={classes.root}>
@@ -40,12 +43,11 @@ function QuantityField(props) {
       <Controller
         name={name}
         control={control}
-        setValue={props.value}
         render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { invalid, isTouched, error } }) => (
           <>
             <FormControl error={isTouched && invalid} fullWidth margin="normal" variant="outlined">
               <Box className={classes.box}>
-                <IconButton onClick={() => setValue(name, Number.parseInt(value) > 0 ? Number.parseInt(value) - 1 : 1)}>
+                <IconButton onClick={() => handleChange(value - 1)}>
                   <RemoveCircleOutlined />
                 </IconButton>
 
@@ -55,9 +57,9 @@ function QuantityField(props) {
                   type="number"
                   value={value}
                   onBlur={onBlur}
-                  onChange={onChange}
+                  onChange={(e) => handleChange(Number(e.target.value))}
                 />
-                <IconButton onClick={() => setValue(name, Number.parseInt(value) > 0 ? Number.parseInt(value) + 1 : 1)}>
+                <IconButton onClick={() => handleChange(value + 1)}>
                   <AddCircleOutline />
                 </IconButton>
               </Box>
