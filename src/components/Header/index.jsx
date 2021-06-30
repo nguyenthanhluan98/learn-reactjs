@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
-import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Badge, Box } from '../../../node_modules/@material-ui/core';
 import { Menu, MenuItem } from '../../../node_modules/@material-ui/core/index';
+import ShowMiniCart from './../../features/Cart/components/ShowMiniCart';
 
 Header.propTypes = {
   cartItemsCount: PropTypes.number,
@@ -69,18 +69,10 @@ const useStyles = makeStyles((theme) => ({
     width: '250px',
   },
   miniCart: {
-    marginTop: theme.spacing(4),
-  },
-  cartContent: {
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: theme.spacing(4),
-    padding: theme.spacing(2),
-  },
-  cartBtn: {
-    marginTop: theme.spacing(1),
+    position: 'absolute',
+
+    top: theme.spacing(6),
+    right: theme.spacing(3),
   },
 }));
 
@@ -105,8 +97,6 @@ function Header(props) {
   const isLoggedIn = !!loggedInUser.id;
 
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const [anchorEl1, setAnchorEl1] = useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -134,9 +124,8 @@ function Header(props) {
     history.push('/cart');
   };
 
-  const handleCloseMiniCart = (event) => {
+  const handleCloseMiniCart = () => {
     const action = hideMiniCart();
-    setAnchorEl1(null);
     dispatch(action);
   };
 
@@ -186,40 +175,7 @@ function Header(props) {
               <ShoppingCart />
             </Badge>
           </IconButton>
-          {showMiniCart && (
-            <Popover
-              className={classes.miniCart}
-              open={showMiniCart}
-              onClose={handleCloseMiniCart}
-              anchorEl={anchorEl1}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-              <Box className={classes.cartBox}>
-                <IconButton className={classes.closeButton} onClick={handleCloseMiniCart}>
-                  <CloseIcon />
-                </IconButton>
-                <Box className={classes.cartContent}>
-                  <Typography variant="subtitle1">Add item successfully</Typography>
-                  <Button
-                    className={classes.cartBtn}
-                    fullWidth
-                    color="secondary"
-                    variant="contained"
-                    onClick={handleCartClick}
-                  >
-                    Go to your cart
-                  </Button>
-                </Box>
-              </Box>
-            </Popover>
-          )}
+          <Box className={classes.miniCart}>{showMiniCart && <ShowMiniCart onClose={handleCloseMiniCart} />}</Box>
         </Toolbar>
       </AppBar>
 

@@ -24,7 +24,7 @@ function App() {
     <div className={classes.root}>
       <Header />
       <Switch>
-        {/* <Route path="/" component={TodoFeature} exact /> */}
+        <Route path="/" component={ProductFeature} exact />
         <Route path="/products" component={ProductFeature} />
         <Route path="/counter" component={CounterFeature} />
         <Route path="/todo-list" component={TodoFeature} />

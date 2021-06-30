@@ -1,16 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Box, Grid, makeStyles, Paper, Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import QuantityField from 'components/form-controls/QuantityField';
 import ProductThumbnail from 'features/Product/components/ProductThumbnail';
 import { PropTypes } from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { formatPrice } from 'utils';
 import * as yup from 'yup';
 import { removeFromCart, setQuantity } from '../cartSlice';
 import { useDispatch } from 'react-redux';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 
 CartItem.propTypes = {
   onChange: PropTypes.func,
@@ -57,6 +59,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
     marginLeft: theme.spacing(2),
   },
+  dialogContent: {
+    display: 'flex',
+    flexFlow: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  message: {
+    paddingBottom: theme.spacing(2),
+  },
+  action: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 const schema = yup.object().shape({
@@ -69,6 +85,7 @@ const schema = yup.object().shape({
 
 function CartItem({ item }) {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
   const { id, name, originalPrice, promotionPercent, salePrice } = item.product;
   const { quantity } = item;
@@ -96,9 +113,6 @@ function CartItem({ item }) {
   };
 
   const handleQuantityChange = (newValue) => {
-    console.log(newValue);
-    // const { id, name } = item;
-    // console.log(event.target.value);
     const action = setQuantity({
       id: id,
       quantity: newValue,
@@ -106,12 +120,21 @@ function CartItem({ item }) {
     dispatch(action);
   };
 
-  const handleRemoveCartItem = (event) => {
+  // show confirmation --> click delete icon
+  const showConfirmationDeleteCart = () => {
+    setOpen(true);
+  };
+
+  const handleRemoveCartItem = () => {
     const action = removeFromCart({
       id: id,
     });
-    console.log(action);
     dispatch(action);
+    setOpen(false);
+  };
+
+  const handleCloseConfirmDialog = () => {
+    setOpen(false);
   };
 
   return (
@@ -140,10 +163,25 @@ function CartItem({ item }) {
           </form>
         </Grid>
         <Grid item className={classes.deleteBtn}>
-          <IconButton onClick={handleRemoveCartItem} className={classes.closeButton}>
+          <IconButton onClick={showConfirmationDeleteCart} className={classes.closeButton}>
             <DeleteIcon />
           </IconButton>
         </Grid>
+
+        <Dialog open={open} aria-labelledby="form-dialog-title">
+          <DialogContent className={classes.dialogContent}>
+            <Box className={classes.message}>Are you sure you want to remove it?</Box>
+
+            <Box className={classes.action}>
+              <Button variant="outlined" onClick={handleCloseConfirmDialog} color="primary">
+                No
+              </Button>
+              <Button variant="outlined" onClick={handleRemoveCartItem} color="secondary">
+                Yes
+              </Button>
+            </Box>
+          </DialogContent>
+        </Dialog>
       </Grid>
     </Paper>
   );

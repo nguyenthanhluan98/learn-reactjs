@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function QuantityField(props) {
   const { form, name, label, onChange } = props;
-  const { setValue, control } = form;
+  const { control } = form;
 
   const classes = useStyles();
 

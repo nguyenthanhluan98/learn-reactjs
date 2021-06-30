@@ -11,7 +11,6 @@ CartFeature.propTypes = {};
 function CartFeature(props) {
   const cartTotal = useSelector(cartTotalSelector);
   const cartItemsCount = useSelector(cartItemsCountSelector);
-  // const items = useSelector((state) => state.cart.cartItems);
 
   return (
     <div>
