@@ -45,7 +45,11 @@ function Login(props) {
       if (closeDialog) {
         closeDialog();
       }
-      enqueueSnackbar('Login successfully', { variant: 'success' });
+      if (user) {
+        enqueueSnackbar('Login successfully', { variant: 'success' });
+      } else {
+        throw error;
+      }
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
     }
