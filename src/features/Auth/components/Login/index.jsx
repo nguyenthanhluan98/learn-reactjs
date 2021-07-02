@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import LoginForm from '../LoginForm';
+import { supabase } from 'supabaseClient';
 
 Login.propTypes = {
   closeDialog: PropTypes.func,
@@ -16,18 +17,34 @@ function Login(props) {
 
   const { enqueueSnackbar } = useSnackbar();
   // const classes = useStyles();
-  const handleSubmit = async (values) => {
+  // const handleSubmit = async (values) => {
+  //   console.log('login values: ', values);
+  //   try {
+  //     const action = login(values);
+  //     const resultAction = await dispatch(action);
+  //     unwrapResult(resultAction);
+
+  //     const { closeDialog } = props;
+
+  //     if (closeDialog) {
+  //       closeDialog();
+  //     }
+
+  //     enqueueSnackbar('Login successfully', { variant: 'success' });
+  //   } catch (error) {
+  //     enqueueSnackbar(error.message, { variant: 'error' });
+  //   }
+  // };
+
+  const handleSubmitSupaBase = async (values) => {
     try {
-      const action = login(values);
-      const resultAction = await dispatch(action);
-      unwrapResult(resultAction);
+      const email = values.identifier;
+      const { user, error } = await supabase.auth.signIn({ email: email, password: values.password });
 
       const { closeDialog } = props;
-
       if (closeDialog) {
         closeDialog();
       }
-
       enqueueSnackbar('Login successfully', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error' });
@@ -36,7 +53,7 @@ function Login(props) {
 
   return (
     <div>
-      <LoginForm onSubmit={handleSubmit} />
+      <LoginForm onSubmit={handleSubmitSupaBase} />
     </div>
   );
 }

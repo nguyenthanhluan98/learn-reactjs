@@ -10,16 +10,16 @@ import { AccountCircle, ShoppingCart } from '@material-ui/icons';
 import AdbIcon from '@material-ui/icons/Adb';
 import CloseIcon from '@material-ui/icons/Close';
 import Login from 'features/Auth/components/Login';
-import Register from 'features/Auth/components/Register';
-import { logout } from 'features/Auth/userSlice';
 import { hideMiniCart } from 'features/Cart/cartSlice';
 import { cartItemsCountSelector } from 'features/Cart/selector';
 import { PropTypes } from 'prop-types';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { supabase } from 'supabaseClient';
 import { Badge, Box } from '../../../node_modules/@material-ui/core';
 import { Menu, MenuItem } from '../../../node_modules/@material-ui/core/index';
+import Register from './../../features/AuthSupaBase/Register/Register';
 import ShowMiniCart from './../../features/Cart/components/ShowMiniCart';
 
 Header.propTypes = {
@@ -90,11 +90,15 @@ function Header(props) {
 
   const history = useHistory();
 
-  const loggedInUser = useSelector((state) => state.user.current);
+  //  const loggedInUser = useSelector((state) => state.user.current);
   const cartItemsCount = useSelector(cartItemsCountSelector);
   const showMiniCart = useSelector((state) => state.cart.showMiniCart);
 
-  const isLoggedIn = !!loggedInUser.id;
+  //  const isLoggedIn = !!loggedInUser.id;
+
+  const isLoggedInSupaBase = supabase.auth.user();
+
+  console.log('is logged in: ', isLoggedInSupaBase);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -114,10 +118,21 @@ function Header(props) {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
-    const action = logout();
-    dispatch(action);
-    setAnchorEl(null);
+  // const handleLogout = () => {
+  //   const action = logout();
+  //   dispatch(action);
+  //   setAnchorEl(null);
+  // };
+
+  const handleLogoutSupaBase = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      alert('Sign out.....');
+      setAnchorEl(null);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCartClick = () => {
@@ -164,8 +179,8 @@ function Header(props) {
             </Link>
           </Button>
 
-          {isLoggedIn && <AccountCircle aria-haspopup="true" onClick={handleClickOpenMenu} color="inherit" />}
-          {!isLoggedIn && (
+          {isLoggedInSupaBase && <AccountCircle aria-haspopup="true" onClick={handleClickOpenMenu} color="inherit" />}
+          {!isLoggedInSupaBase && (
             <Button color="inherit" onClick={handleClickOpen}>
               Login
             </Button>
@@ -197,7 +212,7 @@ function Header(props) {
       >
         <MenuItem onClick={handleClickCloseMenu}>Profile</MenuItem>
         <MenuItem onClick={handleClickCloseMenu}>My account</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={handleLogoutSupaBase}>Logout</MenuItem>
       </Menu>
       <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <IconButton className={classes.closeButton} onClick={handleClose}>
@@ -206,6 +221,7 @@ function Header(props) {
         <DialogContent style={{ overflow: 'hidden' }}>
           {mode === MODE.REGISTER && (
             <>
+              {/* <Register closeDialog={handleClose} /> */}
               <Register closeDialog={handleClose} />
               <Box textAlign="right">
                 <Button className={classes.textLink} color="primary" onClick={() => setMode(MODE.LOGIN)}>

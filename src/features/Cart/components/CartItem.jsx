@@ -168,7 +168,7 @@ function CartItem({ item }) {
           </IconButton>
         </Grid>
 
-        <Dialog open={open} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={handleCloseConfirmDialog} aria-labelledby="form-dialog-title">
           <DialogContent className={classes.dialogContent}>
             <Box className={classes.message}>Are you sure you want to remove it?</Box>
 

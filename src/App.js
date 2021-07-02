@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Header from 'components/Header';
-
 import AlbumFeature from 'features/Ablum';
 import ArticleList from 'features/Blog/components/ArticleList';
 import CartFeature from 'features/Cart';
@@ -9,6 +8,7 @@ import ProductFeature from 'features/Product';
 import TodoFeature from 'features/Todo';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
+import Register from './features/AuthSupaBase/Register/Register';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +25,7 @@ function App() {
       <Header />
       <Switch>
         <Route path="/" component={ProductFeature} exact />
+        <Route path="/register" component={Register} />
         <Route path="/products" component={ProductFeature} />
         <Route path="/counter" component={CounterFeature} />
         <Route path="/todo-list" component={TodoFeature} />
