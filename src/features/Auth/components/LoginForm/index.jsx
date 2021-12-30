@@ -64,6 +64,15 @@ function LoginForm(props) {
     // form.reset();
   };
 
+  const handleSubmitWithGoogle = async (values) => {
+    const { onSubmit } = props;
+    if (onSubmit) {
+      await onSubmit(values);
+    }
+
+    // form.reset();
+  };
+
   const { isSubmitting } = form.formState;
 
   return (
@@ -91,6 +100,18 @@ function LoginForm(props) {
           fullWidth
         >
           Sign in
+        </Button>
+
+        <Button
+          disabled={isSubmitting}
+          type="button"
+          onClick={() => handleSubmitWithGoogle()}
+          className={classes.submit}
+          color="secondary"
+          variant="contained"
+          fullWidth
+        >
+          Sign in with Google
         </Button>
       </form>
     </div>

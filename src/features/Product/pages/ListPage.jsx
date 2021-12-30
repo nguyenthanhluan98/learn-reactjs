@@ -16,7 +16,15 @@ ListPage.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   root: {},
   left: {
-    width: '250px',
+    [theme.breakpoints.up('lg')]: {
+      width: '250px',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      width: '200px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   right: {
     flex: '1 1 0',

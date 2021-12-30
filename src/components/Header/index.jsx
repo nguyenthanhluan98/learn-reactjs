@@ -13,7 +13,7 @@ import Login from 'features/Auth/components/Login';
 import { hideMiniCart } from 'features/Cart/cartSlice';
 import { cartItemsCountSelector } from 'features/Cart/selector';
 import { PropTypes } from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { supabase } from 'supabaseClient';
@@ -21,6 +21,10 @@ import { Badge, Box } from '../../../node_modules/@material-ui/core';
 import { Menu, MenuItem } from '../../../node_modules/@material-ui/core/index';
 import Register from './../../features/AuthSupaBase/Register/Register';
 import ShowMiniCart from './../../features/Cart/components/ShowMiniCart';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from 'features/Firebase/config/firebase';
+import { Hidden } from '@material-ui/core';
+import SideDrawer from 'components/Side/SideDrawer';
 
 Header.propTypes = {
   cartItemsCount: PropTypes.number,
@@ -56,6 +60,12 @@ const useStyles = makeStyles((theme) => ({
   tabLink: {
     textDecoration: 'none',
     color: theme.palette.common.white,
+    [theme.breakpoints.between('xs', 'md')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.between('md', 'lg')]: {
+      fontSize: 14,
+    },
   },
   textLink: {
     fontSize: 12.5,
@@ -87,6 +97,21 @@ function Header(props) {
 
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
+  const [user, loading, error] = useAuthState(auth);
+  const navLinks = [
+    { title: `Product list`, path: `/products` },
+    { title: `login`, path: `/product` },
+    { title: `blog`, path: `/blog` },
+    { title: `contact`, path: `/contact` },
+    { title: `faq`, path: `/faq` },
+  ];
+
+  useEffect(() => {
+    if (loading) return;
+    if (user) {
+      console.log(user);
+    }
+  }, [user, loading]);
 
   const history = useHistory();
 
@@ -118,22 +143,24 @@ function Header(props) {
     setAnchorEl(null);
   };
 
-  // const handleLogout = () => {
-  //   const action = logout();
-  //   dispatch(action);
-  //   setAnchorEl(null);
-  // };
+  const handleLogout = () => {
+    // const action = logout();
+    // dispatch(action);
+    // setAnchorEl(null);
 
-  const handleLogoutSupaBase = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      alert('Sign out.....');
-      setAnchorEl(null);
-    } catch (error) {
-      console.log(error);
-    }
+    auth.signOut();
   };
+
+  // const handleLogoutSupaBase = async () => {
+  //   try {
+  //     const { error } = await supabase.auth.signOut();
+  //     if (error) throw error;
+  //     alert('Sign out.....');
+  //     setAnchorEl(null);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleCartClick = () => {
     history.push('/cart');
@@ -158,7 +185,29 @@ function Header(props) {
               My shop
             </Link>
           </Typography>
-          <Button color="inherit">
+
+          <Hidden smDown>
+            {navLinks.map(({ title, path }) => (
+              <Button color="inherit">
+                {title === 'login' && (
+                  <Link className={classes.tabLink} onClick={handleClickOpen}>
+                    {title}
+                  </Link>
+                )}
+
+                {title !== 'login' && (
+                  <Link className={classes.tabLink} to={path}>
+                    {title}
+                  </Link>
+                )}
+              </Button>
+            ))}
+          </Hidden>
+          <Hidden mdUp>
+            <SideDrawer navLinks={navLinks} />
+          </Hidden>
+
+          {/* <Button color="inherit">
             <Link className={classes.tabLink} to="/todo-list">
               To do list
             </Link>
@@ -179,8 +228,8 @@ function Header(props) {
             </Link>
           </Button>
 
-          {isLoggedInSupaBase && <AccountCircle aria-haspopup="true" onClick={handleClickOpenMenu} color="inherit" />}
-          {!isLoggedInSupaBase && (
+          {user && <AccountCircle aria-haspopup="true" onClick={handleClickOpenMenu} color="inherit" />}
+          {!user && (
             <Button color="inherit" onClick={handleClickOpen}>
               Login
             </Button>
@@ -189,7 +238,7 @@ function Header(props) {
             <Badge badgeContent={cartItemsCount} color="secondary">
               <ShoppingCart />
             </Badge>
-          </IconButton>
+          </IconButton> */}
           <Box className={classes.miniCart}>{showMiniCart && <ShowMiniCart onClose={handleCloseMiniCart} />}</Box>
         </Toolbar>
       </AppBar>
@@ -211,9 +260,11 @@ function Header(props) {
         onClose={handleClickCloseMenu}
       >
         <MenuItem onClick={handleClickCloseMenu}>Profile</MenuItem>
+        <MenuItem onClick={handleClickCloseMenu}>{user && user.displayName}</MenuItem>
         <MenuItem onClick={handleClickCloseMenu}>My account</MenuItem>
-        <MenuItem onClick={handleLogoutSupaBase}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
+      {/* Registration and login form */}
       <Dialog maxWidth="sm" fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <IconButton className={classes.closeButton} onClick={handleClose}>
           <CloseIcon />

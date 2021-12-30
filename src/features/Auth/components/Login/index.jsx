@@ -7,6 +7,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import LoginForm from '../LoginForm';
 import { supabase } from 'supabaseClient';
+import { signInWithGoogle } from 'features/Firebase/config/firebase';
 
 Login.propTypes = {
   closeDialog: PropTypes.func,
@@ -57,7 +58,7 @@ function Login(props) {
 
   return (
     <div>
-      <LoginForm onSubmit={handleSubmitSupaBase} />
+      <LoginForm onSubmit={signInWithGoogle} />
     </div>
   );
 }
